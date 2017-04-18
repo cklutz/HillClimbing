@@ -48,7 +48,7 @@ namespace HillClimbingSample
             options.MinThreads = () => 2;
             options.MaxThreads = () => 1000;
 
-            var hc = new HillClimbing(options);
+            var hc = new PerfAlgorithms.HillClimbing(options);
 
             int newMax = 0, threadAdjustmentInterval = 0;
             long totalCompletions = 0, priorCompletionCount = 0;
