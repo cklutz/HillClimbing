@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HillClimbing", "HillClimbing\HillClimbing.csproj", "{300A0ADD-2DAB-4308-921D-7F755849234D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfAlgorithms", "PerfAlgorithms\PerfAlgorithms.csproj", "{D6569F57-1BB6-4B05-9178-52038DEC1025}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{300A0ADD-2DAB-4308-921D-7F755849234D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{300A0ADD-2DAB-4308-921D-7F755849234D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{300A0ADD-2DAB-4308-921D-7F755849234D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6569F57-1BB6-4B05-9178-52038DEC1025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6569F57-1BB6-4B05-9178-52038DEC1025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6569F57-1BB6-4B05-9178-52038DEC1025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6569F57-1BB6-4B05-9178-52038DEC1025}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

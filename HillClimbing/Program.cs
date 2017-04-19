@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using PerfAlgorithms;
 
-namespace HillClimbingSample
+namespace HillClimbing
 {
     class Program
     {
@@ -18,6 +12,14 @@ namespace HillClimbingSample
         {
             try
             {
+                // Dump some information about available CPU groups and CLR settings.
+                CpuGroupInfo.Dump(Console.Out);
+                // Start (background) collection of CPU utilization.
+                CpuUtilizationHelper.Initialize(500);
+
+                // Start (background) threads to utilize cpu for approx. percentage
+                BurnCpu(percentage: 50);
+
                 // To convert these CSV files to graphs, do:
                 // 1.) Install Microsoft R Client.
                 // 2.) Run R GUI and execute "install.package('ggplot2')"
@@ -25,9 +27,8 @@ namespace HillClimbingSample
                 //
                 // "C:\Program Files\Microsoft\R Client\R_SERVER\bin\x64\rscript.exe" CreateGraphs.R <CSV> <PNG>
                 //
-
-                TestRun(true, "results-random.csv");
-                TestRun(false, "results-smooth.csv");
+                TestRun(true, "results-random.csv", CpuUtilizationHelper.GetCpuUtilization);
+                TestRun(false, "results-smooth.csv", CpuUtilizationHelper.GetCpuUtilization);
 
                 return 0;
             }
@@ -38,7 +39,33 @@ namespace HillClimbingSample
             }
         }
 
-        static void TestRun(bool randomWorkloadJumps, string fileName)
+        static void BurnCpu(int percentage)
+        {
+            int cpus = Environment.ProcessorCount;
+            int numThreads = 1;
+            if (cpus > 1)
+            {
+                numThreads = cpus * percentage / 100;
+                if (numThreads == 0)
+                    numThreads = 1;
+            }
+
+            var threads = new Thread[numThreads];
+            for (int i = 0; i < threads.Length; i++)
+            {
+                threads[i] = new Thread(() =>
+                {
+                    while (true)
+                    {
+                        // Nothing, just waste cycles like crazy.
+                    }
+                });
+                threads[i].IsBackground = true;
+                threads[i].Start();
+            }
+        }
+
+        static void TestRun(bool randomWorkloadJumps, string fileName, Func<int> cpuUtilization)
         {
             // Ported from http://mattwarren.org/2017/04/13/The-CLR-Thread-Pool-Thread-Injection-Algorithm/
 
@@ -47,6 +74,7 @@ namespace HillClimbingSample
             var options = new HillClimbingOptions();
             options.MinThreads = () => 2;
             options.MaxThreads = () => 1000;
+            options.CpuUtilization = cpuUtilization;
 
             var hc = new PerfAlgorithms.HillClimbing(options);
 
