@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CpuCacheInfo.cs" />
     <Compile Include="CpuGroupInfo.cs" />
     <Compile Include="CpuUtilizationHelper.cs" />
     <Compile Include="HillClimbing.cs" />

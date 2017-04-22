@@ -56,7 +56,15 @@ namespace PerfAlgorithms
                 }
 
                 s_prevCpuInfo = new ProcessCpuInformation();
-                s_prevCpuInfo.NumberOfProcessors = Environment.ProcessorCount;
+                if (CpuGroupInfo.CanEnableGCCpuGroups() && CpuGroupInfo.CanEnableThreadUseAllCpuGroups())
+                {
+                    s_prevCpuInfo.NumberOfProcessors = CpuGroupInfo.NumberOfProcessors;
+                }
+                else
+                {
+                    s_prevCpuInfo.NumberOfProcessors = NativeMethods.GetCurrentProcessCpuCount();
+                }
+
                 s_prevCpuInfo.AffinityMask = GetCurrentAffinityMask(s_prevCpuInfo.NumberOfProcessors);
                 s_prevCpuInfo.UsageBufferSize = s_prevCpuInfo.NumberOfProcessors * Marshal.SizeOf(typeof(NativeMethods.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION));
                 s_prevCpuInfo.UsageBuffer = Marshal.AllocHGlobal(s_prevCpuInfo.UsageBufferSize);

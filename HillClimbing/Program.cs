@@ -12,6 +12,11 @@ namespace HillClimbing
         {
             try
             {
+                // Dump some information about available CPU caches (just because we can).
+                // Of course, the CPU cache has "some" influence, but is not really relevant
+                // for the stuff below. Really, it should move into some (to be created)
+                // utility library.
+                CpuCacheInfo.Dump(Console.Out);
                 // Dump some information about available CPU groups and CLR settings.
                 CpuGroupInfo.Dump(Console.Out);
                 // Start (background) collection of CPU utilization.
