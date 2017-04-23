@@ -42,8 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CpuCacheInfo.cs" />
-    <Compile Include="CpuGroupInfo.cs" />
+    <Compile Include="ClrInfo.cs" />
+    <Compile Include="SysInfo\CpuSocketInfo.cs" />
+    <Compile Include="SysInfo\CpuCoreInfo.cs" />
+    <Compile Include="SysInfo\CpuCacheInfo.cs" />
+    <Compile Include="SysInfo\CpuGroupInfo.cs" />
+    <Compile Include="SysInfo\CpuNumaNodeInfo.cs" />
     <Compile Include="CpuUtilizationHelper.cs" />
     <Compile Include="HillClimbing.cs" />
     <Compile Include="HillClimbingOptions.cs" />

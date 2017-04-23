@@ -56,7 +56,7 @@ namespace PerfAlgorithms
                 }
 
                 s_prevCpuInfo = new ProcessCpuInformation();
-                if (CpuGroupInfo.CanEnableGCCpuGroups() && CpuGroupInfo.CanEnableThreadUseAllCpuGroups())
+                if (ClrInfo.CanEnableGCCpuGroups() && ClrInfo.CanEnableThreadUseAllCpuGroups())
                 {
                     s_prevCpuInfo.NumberOfProcessors = CpuGroupInfo.NumberOfProcessors;
                 }
@@ -102,7 +102,7 @@ namespace PerfAlgorithms
         {
             var newInfo = new ProcessCpuInformation();
 
-            if (CpuGroupInfo.CanEnableGCCpuGroups() && CpuGroupInfo.CanEnableThreadUseAllCpuGroups())
+            if (ClrInfo.CanEnableGCCpuGroups() && ClrInfo.CanEnableThreadUseAllCpuGroups())
             {
                 // Process can run on all CPUs in the system, regardless of which CPU groups they
                 // may be assigned to. Use a simpliefied version of getting the curren times.

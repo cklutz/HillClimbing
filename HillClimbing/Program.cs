@@ -8,32 +8,58 @@ namespace HillClimbing
 {
     class Program
     {
+        static void CoreInfo()
+        {
+            Console.WriteLine("Logical to Physical Processor Map:");
+            CpuCoreInfo.Dump();
+            Console.WriteLine();
+            Console.WriteLine("Logical Processor to Socket Map:");
+            CpuSocketInfo.Dump();
+            Console.WriteLine();
+            Console.WriteLine("Logical Processor to NUMA Node Map:");
+            CpuNumaNodeInfo.Dump();
+            Console.WriteLine();
+            Console.WriteLine("Logical Processor to Cache Map:");
+            CpuCacheInfo.Dump();
+            Console.WriteLine();
+            Console.WriteLine("Logical Processor to Group Map:");
+            CpuGroupInfo.Dump();
+            Console.WriteLine();
+        }
+
         static int Main(string[] args)
         {
             try
             {
-                // Dump some information about available CPU caches (just because we can).
-                // Of course, the CPU cache has "some" influence, but is not really relevant
-                // for the stuff below. Really, it should move into some (to be created)
-                // utility library.
-                CpuCacheInfo.Dump(Console.Out);
-                // Dump some information about available CPU groups and CLR settings.
-                CpuGroupInfo.Dump(Console.Out);
-                // Start (background) collection of CPU utilization.
-                CpuUtilizationHelper.Initialize(500);
+                for (int i = 0; i < args.Length; i++)
+                {
+                    switch (args[i])
+                    {
+                        case "-info":
+                            CoreInfo();
+                            break;
+                        default:
+                            Console.WriteLine("Running Hill Climibing Test:");
 
-                // Start (background) threads to utilize cpu for approx. percentage
-                BurnCpu(percentage: 50);
+                            ClrInfo.Dump();
+                            // Start (background) collection of CPU utilization.
+                            CpuUtilizationHelper.Initialize(500);
 
-                // To convert these CSV files to graphs, do:
-                // 1.) Install Microsoft R Client.
-                // 2.) Run R GUI and execute "install.package('ggplot2')"
-                // 3.) Run the following command on each file:
-                //
-                // "C:\Program Files\Microsoft\R Client\R_SERVER\bin\x64\rscript.exe" CreateGraphs.R <CSV> <PNG>
-                //
-                TestRun(true, "results-random.csv", CpuUtilizationHelper.GetCpuUtilization);
-                TestRun(false, "results-smooth.csv", CpuUtilizationHelper.GetCpuUtilization);
+                            // Start (background) threads to utilize cpu for approx. percentage
+                            BurnCpu(percentage: 50);
+
+                            // To convert these CSV files to graphs, do:
+                            // 1.) Install Microsoft R Client.
+                            // 2.) Run R GUI and execute "install.package('ggplot2')"
+                            // 3.) Run the following command on each file:
+                            //
+                            // "C:\Program Files\Microsoft\R Client\R_SERVER\bin\x64\rscript.exe" CreateGraphs.R <CSV> <PNG>
+                            //
+                            TestRun(true, "results-random.csv", CpuUtilizationHelper.GetCpuUtilization);
+                            TestRun(false, "results-smooth.csv", CpuUtilizationHelper.GetCpuUtilization);
+                            break;
+                    }
+                }
 
                 return 0;
             }

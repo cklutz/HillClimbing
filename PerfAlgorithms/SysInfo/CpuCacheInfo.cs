@@ -7,20 +7,22 @@ namespace PerfAlgorithms
 {
     public class CpuCacheInfo
     {
-        public static void Dump(TextWriter tw)
+        public static void Dump(TextWriter tw = null)
         {
+            tw = tw ?? Console.Out;
+            
             // Somewhat simulate the output of sysinternals' "coreinfo.exe -l"
 
             var native = GetNativeInfo();
 
-            int maxMask = native.Max(n => Convert.ToString(n.GroupMask.Mask.ToInt32(), 2).Length);
+            int maxMask = native.Max(n => Convert.ToString(n.GroupMask.Mask.ToInt64(), 2).Length);
             int maxType = native.Max(n => n.Type.ToString().Length);
             int maxSize = native.Max(n => (n.CacheSize / 1024.0).ToString("N").Length);
             int maxAsso = native.Max(n => n.Associativity.ToString().Length);
 
             foreach (var entry in native)
             {
-                string map = new string(Convert.ToString(entry.GroupMask.Mask.ToInt32(), 2).Reverse().ToArray());
+                string map = new string(Convert.ToString(entry.GroupMask.Mask.ToInt64(), 2).Reverse().ToArray());
                 tw.Write(map.Replace('1', '*').Replace('0', '-').PadRight(maxMask, '-'));
                 tw.Write(" ");
                 tw.Write(entry.Type.ToString().PadRight(maxType));
